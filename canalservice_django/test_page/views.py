@@ -1,23 +1,23 @@
-from datetime import datetime
 import psycopg2
-from django.db.models import Sum, Avg
 from django.shortcuts import render
-from .models import GoogleSheet
-from qsstats import QuerySetStats
-from datetime import date
-from dateutil.relativedelta import relativedelta
-today = date.today()
+categories = []
+values = []
 
-def time_series(queryset, date_field, interval, func=None):
-    qsstats = QuerySetStats(queryset, date_field, func)
-    return qsstats.time_series(*interval)
+connection = psycopg2.connect(user="postgres",
+                              password="123456",
+                              host="127.0.0.1",
+                              port="5432",
+                              database="test_db")
 
+
+cursor = connection.cursor()
+postgreSQL_select_Query = "SELECT price,delivery_time FROM canal"
+cursor.execute(postgreSQL_select_Query)
+canal_records = cursor.fetchall()
+for row in canal_records:
+    values.append(row[0])
+    categories.append(row[1])
 def home(request):
-    series = {'count': [], 'total': []}
-    series['count'].append(date)
-    series['total'].append(price)
+    context = {"values": values, 'categoriees': categories}
+    return render(request, 'base.html', context=context)
 
-
-
-    print(series['total'])
-    return render(request, 'base.html', {'series': series})

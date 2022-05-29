@@ -3,7 +3,7 @@ import psycopg2
 from datetime import date
 today = date.today()
 past_orders = []
-bot = telebot.TeleBot("5340847672:AAGCSx6No59Jn3_LB7MZ7ywuT0rG1kFbI0g")
+bot = telebot.TeleBot("5445102483:AAF8ohdfD941VIMUNG7_IOLRJzJjaepkymE")
 
 
 connection = psycopg2.connect(user="postgres",
@@ -14,7 +14,7 @@ connection = psycopg2.connect(user="postgres",
 
 
 cursor = connection.cursor()
-postgreSQL_select_Query = "select * from canal"
+postgreSQL_select_Query = "SELECT * FROM canal"
 cursor.execute(postgreSQL_select_Query)
 canal_records = cursor.fetchall()
 for row in canal_records:
