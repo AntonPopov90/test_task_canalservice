@@ -3,46 +3,68 @@
 <html lang="en">
   <head>
     <title>Canalservice</title>
+    <style>
+table {
+    border-collapse: collapse;
+  }
+th{
+        border: 1px solid black;
+        padding: 5px;
+        color:white;
+        background:black;
+    }
+    td{
+        border: 1px black;
+        padding: 25px;
+        font-size:50pt;
+    }
+
+</style>
   </head>
   <body>
+ <table border="1px" align="right">
+   <tr><th>Total</th></tr>
+   <tr ><td>{{ total }}</td></tr>
+ </table>
+ <table border="1px" align="right">
+     {% for i in dates.date %}
+   <tr><th>{{i}}</th></tr>
+   <tr ><td>{{ values.values }}</td></tr>
+     {% endfor %}
+ </table>
 	  <!-- Highcharts display -->
-	  <div class="border" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	  <div class="border" id="container" style="width: 70%; height: 400px; margin: 0 auto" align="left"></div>
     <!-- Chartjs libraries -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
-
     <script>
-      _categories = {{categories|safe}}
-      _values = {{values|safe}};
-
-      Highcharts.chart('container', {
-
+      values = {{ values|safe }}
+      dates = {{ dates|safe }}
+Highcharts.chart('container', {
+    title: {
+        text: null
+    },
     yAxis: {
         title: {
-            text: 'Number of Employees'
+            text: null
         }
-    },
-
+     },
     xAxis: {
-        categories: _values
+        categories: dates.date,
     },
-
-
     series: [{
-        name: 'Installation',
-        data: _values
+        data: values.values
     }],
-
     responsive: {
         rules: [{
             condition: {
-                maxWidth: 500
+                maxWidth: 400
             },
             chartOptions: {
                 legend: {
                     layout: 'horizontal',
-                    align: 'center',
+                    align: 'left',
                     verticalAlign: 'bottom'
                 }
             }

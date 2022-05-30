@@ -1,8 +1,10 @@
+import json
 import psycopg2
+from datetime import datetime, date
 from django.shortcuts import render
-categories = []
+dates = []
 values = []
-
+sum_of_orders = 0
 connection = psycopg2.connect(user="postgres",
                               password="123456",
                               host="127.0.0.1",
@@ -16,8 +18,18 @@ cursor.execute(postgreSQL_select_Query)
 canal_records = cursor.fetchall()
 for row in canal_records:
     values.append(row[0])
-    categories.append(row[1])
+    dates.append(row[1])
+total_sum = sum(values)
+
+def serialize_data(object):
+    ''' Serialize dete format into JSON '''
+    if isinstance(object, (datetime, date)):
+        serial = object.isoformat()
+        return serial
+values_to_json = {'values': values}
+dates_to_json = {'date': dates}
+values = json.dumps(values_to_json, default=serialize_data)
+dates = json.dumps(dates_to_json, default=serialize_data)
 def home(request):
-    context = {"values": values, 'categoriees': categories}
-    return render(request, 'base.html', context=context)
+    return render(request, 'base.html', context={'values': values, 'dates': dates, 'total':total_sum})
 
