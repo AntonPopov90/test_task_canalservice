@@ -1,4 +1,5 @@
 import psycopg2
+import time
 from psycopg2 import Error
 from main_script import list_for_db
 connection = psycopg2.connect(user="postgres",
@@ -32,8 +33,11 @@ def bulk_insert(records):
         connection.commit()
         print(cursor.rowcount, "Запись(и) успешно вставлена(ы) в таблицу")
 
+        time.sleep(280)
+        sql_update_query = """DROP TABLE canal"""
+        cursor.execute(sql_update_query)
+        connection.commit()
     except (Exception, Error) as error:
         print("Ошибка при работе с PostgreSQL", error)
-
 
 bulk_insert(list_for_db[1:])
