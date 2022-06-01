@@ -16,31 +16,27 @@ th{
     td{
         border: 1px black;
         padding: 25px;
-        font-size:50pt;
+        font-size: 50pt;
     }
-
 </style>
   </head>
   <body>
- <table border="1px" align="right">
+  <div style="background-color:#66cc66">
+      <img src="https://kanalservis.ru/wp-content/themes/knal/img/logo.png">
+  </div>
+ <table border="1px" align="right" width="200">
    <tr><th>Total</th></tr>
-   <tr ><td>{{ total }}</td></tr>
- </table>
- <table border="1px" align="right">
-     {% for i in dates.date %}
-   <tr><th>{{i}}</th></tr>
-   <tr ><td>{{ values.values }}</td></tr>
-     {% endfor %}
+   <tr><td>{{ total }}</td></tr>
  </table>
 	  <!-- Highcharts display -->
-	  <div class="border" id="container" style="width: 70%; height: 400px; margin: 0 auto" align="left"></div>
+	  <div class="border" id="container" style="width: 85%; height: 50%; margin left: 0"></div>
     <!-- Chartjs libraries -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script>
-      values = {{ values|safe }}
-      dates = {{ dates|safe }}
+      orders_price = {{ orders_price|safe }}
+      dates = {{ orders_dates|safe }}
 Highcharts.chart('container', {
     title: {
         text: null
@@ -54,7 +50,8 @@ Highcharts.chart('container', {
         categories: dates.date,
     },
     series: [{
-        data: values.values
+        name: null,
+        data: orders_price.values
     }],
     responsive: {
         rules: [{
@@ -73,10 +70,26 @@ Highcharts.chart('container', {
 
 });
       </script>
-
+<table border="1px" align="right" bgcolor="lightblue" width="350">
+        <tr bgcolor="">
+            <th>№</th>
+            <th>Заказ</th>
+            <th>Стоимость</th>
+        </tr>
+{% for i in number %}
+     {% for k in orders_number %}
+     {% for j in price %}
+     <tr>
+          <td> {{ i }} </td>
+         <td> {{ k }} </td>
+         <td> {{ j }} </td>
+     </tr>
+     {% endfor %}
+     {% endfor %}
+     {% endfor %}
+</table>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-
   </body>
 </html>
