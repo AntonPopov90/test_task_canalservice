@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'test_page',
     'googlecharts',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'canalservice_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'test_db',
+        'NAME': 'numbers_test_db',
         'USER': 'postgres',
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
